@@ -2,7 +2,9 @@ FROM php:8.3-fpm-bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update
+
+RUN apt-get install -y \
     nginx \
     supervisor \
     git \
@@ -13,9 +15,11 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg62-turbo-dev \
     libfreetype6-dev \
-    libonig-dev \
-  && docker-php-ext-configure gd --with-freetype --with-jpeg \
-  && docker-php-ext-install \
+    libonig-dev
+
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+
+RUN docker-php-ext-install \
     bcmath \
     ctype \
     curl \
@@ -26,8 +30,7 @@ RUN apt-get update && apt-get install -y \
     opcache \
     pdo_mysql \
     zip \
-    xml \
-  && rm -rf /var/lib/apt/lists/*
+    xml
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
